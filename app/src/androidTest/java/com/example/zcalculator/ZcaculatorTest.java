@@ -8,7 +8,10 @@ import androidx.test.rule.ActivityTestRule;
 
 import com.robotium.solo.Solo;
 
+import junit.framework.TestCase;
+
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -26,10 +29,8 @@ public class ZcaculatorTest {
 //        assertEquals("com.example.zcalculator", appContext.getPackageName());
 //    }
 
-
     @Rule
     public ActivityTestRule<Zcaculator> activityTestRule = new ActivityTestRule<>(Zcaculator.class);
-
     private Context context;
     private Solo solo;
 
@@ -40,7 +41,6 @@ public class ZcaculatorTest {
         solo = new Solo(InstrumentationRegistry.getInstrumentation(), activityTestRule.getActivity());
         context = InstrumentationRegistry.getInstrumentation().getTargetContext().getApplicationContext();
     }
-
     @After
     public void tearDown() throws Exception {
         //tearDown() is run after a test case has finished.
@@ -50,7 +50,7 @@ public class ZcaculatorTest {
 
     @Test
     public void testAdd() throws Exception {
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 5; i++) {
             solo.clearEditText(0);
             solo.clearEditText(1);
             int first = new Random().nextInt(200);
@@ -59,20 +59,15 @@ public class ZcaculatorTest {
             solo.enterText(1, String.valueOf(second));
             solo.clickOnView(solo.getView(R.id.btnGetResult));
             TextView textResult = (TextView) solo.getView(R.id.txtResult);
+
             int actualResult = Integer.parseInt(textResult.getText().toString());
-
             int expectedResult = first + second;
-
-            assertEquals(expectedResult, actualResult);
-
+            assertTrue(this.solo.searchText(expectedResult+""));
             TextView textComment = (TextView) solo.getView(R.id.txtComment);
 
-            TextView toast = (TextView) solo.getView(android.R.id.message);
             if (expectedResult % 2 == 0) {
-                assertEquals("toast is not showing", "Đây là số chẵn", toast.getText().toString());
-                assertEquals("Đây là số chẵn", textComment.getText().toString());
+                assertTrue(textComment.getText().toString().equals("Đây là số chẵn"));
             } else {
-                assertEquals("toast is not showing", "Đây là số lẻ", toast.getText().toString());
                 assertEquals("Đây là số lẻ", textComment.getText().toString());
             }
         }

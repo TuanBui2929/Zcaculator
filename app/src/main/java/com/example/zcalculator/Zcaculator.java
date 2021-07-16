@@ -31,19 +31,20 @@ public class Zcaculator extends AppCompatActivity {
         mTextResult = findViewById(R.id.txtResult);
         mTxtComment = findViewById(R.id.txtComment);
         mSpinner = findViewById(R.id.operationSpinner);
-        // Adding listener to get mTextResult button
+        // sự kiện click button Result
         findViewById(R.id.btnGetResult).setOnClickListener(new View.OnClickListener() {
             public void onClick(final View v) {
                 OperationType operationType = OperationType.valueOf(mSpinner.getSelectedItem().toString());
                 int num1 = Integer.parseInt(mTxtFirstNumber.getText().toString());
                 int num2 = Integer.parseInt(mTxtSecondNumber.getText().toString());
-                // Getting first & second values and passing to show mTextResult
+                // show kết quả
                 showResult(num1, num2, operationType);
             }
         });
     }
 
-    // Showing operation results
+    //
+    //  hàm results
     protected void showResult(int firstNumber, int secondNumber, OperationType type) {
         int resultVal = 0;
         if (type.equals(OperationType.Addition)) {
